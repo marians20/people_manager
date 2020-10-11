@@ -1,0 +1,10 @@
+{
+    "Created" : {
+        "statusCode": 201,
+        "text": "Created"
+    },
+    "NoContent": {
+        "statusCode": 201,
+        "text": "No content"
+    }
+}
