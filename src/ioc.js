@@ -1,6 +1,7 @@
 const { createContainer, asClass, InjectionMode } = require('awilix');
 
 const PeopleRepository = require('./repositories/people_repository');
+const PeopleRepositorySqlite = require('./repositories/people_repository_sqlite');
 const PeopleService = require('./services/people_service');
 const PeopleController = require('./controllers/people_controller');
 
@@ -14,7 +15,7 @@ if (!container) {
     });
 
     container.register({
-      peopleRepository: asClass(PeopleRepository),
+      peopleRepository: asClass(PeopleRepositorySqlite),
       peopleService: asClass(PeopleService),
       peopleController: asClass(PeopleController)
     });
