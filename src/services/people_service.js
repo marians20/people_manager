@@ -1,11 +1,14 @@
-const peopleRepository = require('../repositories/people_repository');
+module.exports =
+function PeopleService(opts) {
+    const peopleRepository = opts.peopleRepository;
 
-exports.create = (entity) => peopleRepository.create(entity);
+    this.create = (entity) =>  peopleRepository.create(entity);
 
-exports.getAll = () => peopleRepository.getAll();
+    this.getAll = () => peopleRepository.getAll();
 
-exports.getById = (id) => peopleRepository.getById(id);
+    this.getById = (id) => peopleRepository.getById(id);
 
-exports.update = (id, newEntity) => peopleRepository.update(id, newEntity);
+    this.update = (id, newEntity) => peopleRepository.update(id, newEntity);
 
-exports.delete = (id) => peopleRepository.delete(id);
+    this.delete =(id) => peopleRepository.delete(id);
+}
