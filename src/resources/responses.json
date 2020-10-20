@@ -4,7 +4,7 @@
         "text": "Created"
     },
     "NoContent": {
-        "statusCode": 201,
+        "statusCode": 204,
         "text": "No content"
     }
 }

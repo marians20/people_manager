@@ -2,7 +2,7 @@ module.exports =
 function PeopleService(opts) {
     const peopleRepository = opts.peopleRepository;
 
-    this.create = (entity) =>  peopleRepository.create(entity);
+    this.create = (entity) => peopleRepository.create(entity);
 
     this.getAll = () => peopleRepository.getAll();
 
