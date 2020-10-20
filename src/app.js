@@ -5,6 +5,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require("swagger-jsdoc");
 
 var config = require('./config/config.json');
+
 var peopleRouting = require('./routings/people_routing');
 
 var app = express();

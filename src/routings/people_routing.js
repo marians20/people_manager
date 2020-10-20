@@ -6,13 +6,16 @@
  */
 var express = require('express');
 var router = express.Router();
-const peopleController = require('../controllers/people_controller');
+
+var container = require('../ioc');
+
+const peopleController = container.resolve('peopleController');
 
 router.use(function timeLog(req, res, next) {
 
-    // TODO: Add middleware here
+  // TODO: Add middleware here
 
-    next()
+  next()
 });
 
 router.get('/', peopleController.getAll);
