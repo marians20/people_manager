@@ -1,7 +1,7 @@
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require("swagger-jsdoc");
-var config = require('./config/config.json');
+const config = require('config');
 
 module.exports = function AddSwagger(app) {
     

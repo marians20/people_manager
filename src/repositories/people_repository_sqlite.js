@@ -1,6 +1,7 @@
 const responses = require('../resources/responses.json');
 const { Sequelize, Model, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+const config = require('config');
+const sequelize = new Sequelize(config.dbConfig);
 const queryInterface = sequelize.getQueryInterface();
 const Person = require ('../models/person.js')(sequelize, DataTypes);
 
