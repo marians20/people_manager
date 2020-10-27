@@ -21,7 +21,6 @@ import { PeopleDataSource } from './people.datasource';
 export class PeopleComponent implements OnInit, AfterViewInit  {
   public people: People;
   private isLoadingResults: boolean;
-  private isRateLimitReached: boolean;
 
   displayedColumns: string[] = ['firstName', 'lastName', 'cnp'];
 
@@ -49,8 +48,6 @@ export class PeopleComponent implements OnInit, AfterViewInit  {
       }),
       catchError(() => {
         this.isLoadingResults = false;
-        // Catch if the GitHub API has reached its rate limit. Return empty data.
-        this.isRateLimitReached = true;
         return observableOf([]);
       })
     ).subscribe();
