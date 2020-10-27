@@ -5,12 +5,19 @@ import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { People } from 'src/app/models';
 import { PeopleDataSource } from './people.datasource';
-
+/**
+ * @export
+ * @class PeopleComponent
+ * @implements {OnInit}
+ * @implements {AfterViewInit}
+ * @documentation https://material.angular.io/components/table/examples
+ */
 @Component({
   selector: 'ppl-people',
   templateUrl: './people.component.html',
   styleUrls: ['./people.component.scss']
 })
+
 export class PeopleComponent implements OnInit, AfterViewInit  {
   public people: People;
   private isLoadingResults: boolean;
