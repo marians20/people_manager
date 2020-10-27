@@ -3,16 +3,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RestService {
   private _baseUrl: string;
 
