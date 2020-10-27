@@ -35,7 +35,6 @@ export class RestService {
         `body was: ${error.error}`);
     }
     // Return an observable with a user-facing error message.
-    return throwError(
-      'Something bad happened; please try again later.');
+    return throwError(error);
   }
 }

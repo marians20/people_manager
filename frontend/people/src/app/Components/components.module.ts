@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TheMaterialModule } from './../../material.module';
+import { TheMaterialModule } from '../material.module';
 
 import { DataAdaptersModule } from './../data-adapters/data-adapters.module';
 
@@ -24,6 +24,7 @@ CommonModule,
   TheMaterialModule,
   DataAdaptersModule,
   ],
-  exports: [...components]
+  exports: [...components],
+  providers: []
 })
 export class ComponentsModule { }
