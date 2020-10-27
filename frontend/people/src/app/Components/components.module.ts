@@ -24,7 +24,6 @@ CommonModule,
   TheMaterialModule,
   DataAdaptersModule,
   ],
-  exports: [...components],
-  providers: []
+  exports: [...components]
 })
 export class ComponentsModule { }

@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map, retry } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 // @Injectable({
 //   providedIn: 'root'
@@ -14,27 +20,43 @@ export class RestService {
     this._baseUrl = value;
   }
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private snackBar: MatSnackBar) { }
 
   public get<T>(): Observable<T[]> {
     return this.httpClient.get<T[]>(this._baseUrl).pipe(
-      map(response => response),
-      catchError(this.handleError)
+      map(response => {
+        this.openSnackBar(`${response.length} item(s) retrieved.`);
+        return response;
+      }),
+      catchError((error) => {
+        if (error.error instanceof ErrorEvent) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error.message);
+          this.openSnackBar(`${error.error.message}`, 2000);
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong.
+          console.error(
+            `Backend returned code ${error.status}, ` +
+            `body was: ${JSON.stringify(error.error)}`);
+          this.openSnackBar(`${error.status} ${error.statusText} ${JSON.stringify(error.error)}`, 2000);
+        }
+        return this.handleError(error);
+      })
     );
   }
 
+  private openSnackBar(message: string, duration: number = 500): void {
+    this.snackBar.open(message, 'Close', {
+      duration,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-    }
-    // Return an observable with a user-facing error message.
     return throwError(error);
   }
 }

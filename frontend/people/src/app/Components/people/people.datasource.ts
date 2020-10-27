@@ -4,9 +4,7 @@ import { RestService } from './../../data-adapters/rest.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnvironmentService } from 'src/app/environment.service';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PeopleDataSource extends MatTableDataSource<Person> {
     constructor(
         private rest: RestService,
