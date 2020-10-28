@@ -18,8 +18,8 @@ router.use(function timeLog(req, res, next) {
   next()
 });
 
+router.get('/all', peopleController.getAll);
 router.get('/', peopleController.get);
-//router.get('/', peopleController.get);
 router.get('/:id', peopleController.getById);
 router.post('/', peopleController.create);
 router.put('/:id', peopleController.update);
