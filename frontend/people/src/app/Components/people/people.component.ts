@@ -3,6 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { merge, of as observableOf } from 'rxjs';
 import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+
+import { QueryDto } from '../../data-adapters/dtos';
 import { People } from 'src/app/models';
 import { PeopleDataSource } from './people.datasource';
 /**
@@ -18,7 +20,7 @@ import { PeopleDataSource } from './people.datasource';
   styleUrls: ['./people.component.scss']
 })
 
-export class PeopleComponent implements OnInit, AfterViewInit  {
+export class PeopleComponent implements OnInit, AfterViewInit {
   public people: People;
   private isLoadingResults: boolean;
 
@@ -32,26 +34,40 @@ export class PeopleComponent implements OnInit, AfterViewInit  {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.sort.active, this.sort.direction, this.paginator.pageIndex);
-    this.dataSource.load(this.sort.active, this.sort.direction, this.paginator.pageIndex).subscribe();
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page)
-    .pipe(
-      startWith({}),
-      switchMap(() => {
-        this.isLoadingResults = true;
-        return this.dataSource.load(this.sort.active, this.sort.direction, this.paginator.pageIndex);
-      }),
-      map(data => {
-        this.isLoadingResults = false;
-        return data;
-      }),
-      catchError(() => {
-        this.isLoadingResults = false;
-        return observableOf([]);
-      })
-    ).subscribe();
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this.dataSource.load(this.getQueryDto());
+        }),
+        map(data => {
+          this.isLoadingResults = false;
+          return data;
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          return observableOf([]);
+        })
+      ).subscribe();
   }
 
   ngOnInit(): void { }
+
+  private getQueryDto(): QueryDto {
+    if (this.displayedColumns.indexOf(this.sort.active) > -1) {
+      return {
+        sort: {
+          field: this.sort.active,
+          direction: this.sort.direction
+        }
+      }
+    }
+
+    return {sort: {
+      field: null,
+      direction: null
+    }};
+  }
 }

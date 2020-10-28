@@ -6,6 +6,8 @@ function PeopleService(opts) {
 
     this.getAll = () => peopleRepository.getAll();
 
+    this.get = (queryDto) => peopleRepository.get(queryDto);
+
     this.getById = (id) => peopleRepository.getById(id);
 
     this.update = (id, newEntity) => peopleRepository.update(id, newEntity);

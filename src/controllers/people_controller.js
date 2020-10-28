@@ -8,6 +8,8 @@ module.exports = function PeopleController(opts) {
     this.getById = async (req, res) => await queryToResponse(res, () => peopleService.getById(+req.params.id));
     
     this.getAll = async (req, res) => await queryToResponse(res, () => peopleService.getAll());
+
+    this.get = async (req, res) => await queryToResponse(res, () => peopleService.get({sortField: req.query.sortField, sortDirection: req.query.sortDirection}));
     
     this.update = async (req, res) => await commandToResponse(res, () => peopleService.update(+req.params.id, req.body));
     

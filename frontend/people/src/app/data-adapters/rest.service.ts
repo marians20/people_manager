@@ -19,8 +19,8 @@ export class RestService {
     private httpClient: HttpClient,
     private snackBar: MatSnackBar) { }
 
-  public get<T>(): Observable<T[]> {
-    return this.httpClient.get<T[]>(this._baseUrl).pipe(
+  public get<T>(params?: any): Observable<T[]> {
+    return this.httpClient.get<T[]>(this._baseUrl, { params }).pipe(
       map(response => {
         this.openSnackBar(`${response.length} item(s) retrieved.`);
         return response;

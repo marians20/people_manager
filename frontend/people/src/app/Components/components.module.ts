@@ -16,7 +16,12 @@ const components = [
   DashboardComponent,
   PeopleComponent,
 ];
-
+/**
+ *
+ *
+ * @export
+ * @class ComponentsModule
+ */
 @NgModule({
   declarations: [ ...components],
   imports: [
@@ -26,4 +31,5 @@ CommonModule,
   ],
   exports: [...components]
 })
+
 export class ComponentsModule { }
