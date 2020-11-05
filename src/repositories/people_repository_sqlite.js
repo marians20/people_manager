@@ -56,7 +56,12 @@ module.exports = function PeopleRepositorySqlite() {
     this.get = async (queryDto) => {
         try {
             return queryDto.sortField && queryDto.sortDirection
-                ? await Person.findAll({ order:[[queryDto.sortField, queryDto.sortDirection]] })
+                ? await Person.findAll({
+                     order: [[
+                            Sequelize.fn('lower', Sequelize.col(queryDto.sortField)),
+                            queryDto.sortDirection,
+                         ]]
+                    })
                 : await Person.findAll();
         } catch(error) {
             console.error(error);
