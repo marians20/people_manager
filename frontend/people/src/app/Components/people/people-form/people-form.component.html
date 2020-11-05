@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>{{data.title}}</h2>
+<mat-dialog-content class="mat-typography">
+    {{data.subtitle}}
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button color=primary [mat-dialog-close]="data" cdkFocusInitial><mat-icon>check</mat-icon></button>
+    <button mat-button [mat-dialog-close]="undefined"><mat-icon>close</mat-icon></button>
+  </mat-dialog-actions>

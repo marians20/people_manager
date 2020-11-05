@@ -1,5 +1,29 @@
+@import '/src/styles.scss';
 :host {
+    display: flex;
+    flex-grow: true;
+    height: $containerHeight;
+    table {
+        max-height: $containerHeight;
+        overflow-y: scroll;
+    }
+    .fluid {
+        width: 90%;
+        margin: 0 auto;
+        height: $containerHeight;
+        padding: 1em;
+    }
+    .bottom {
+        position: absolute;
+        bottom: $toolbarHeight;
+    }
+    .mat-column-select {
+        overflow: initial;
+    }
     table {
         width: 100%;
+        tr:not(.header):hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
     }
 }
