@@ -2,6 +2,7 @@
     <button mat-icon-button (click)="openDialog()">
         <mat-icon>add_circle_outline</mat-icon>
     </button>
+    <div class="table_container">
     <table mat-table matSort matSortActive="created" matSortDisableClear matSortDirection="desc"
         [dataSource]="dataSource">
         <ng-container matColumnDef="select">
@@ -34,6 +35,7 @@
         </thead>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="tableRowClick(row)"></tr>
     </table>
-    <mat-paginator class="bottom" [length]="100" [pageSize]="1" [pageSizeOptions]="[1, 5, 10, 25, 100]">
+</div>
+    <mat-paginator [length]="100" [pageSize]="1" [pageSizeOptions]="[1, 5, 10, 25, 100]">
     </mat-paginator>
 </div>

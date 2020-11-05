@@ -28,4 +28,8 @@ export class PeopleDataSource extends MatTableDataSource<Person> {
                 return data;
             }));
     }
+
+    public add(person: Person): Observable<any> {
+        return this.rest.post(person);
+    }
 }

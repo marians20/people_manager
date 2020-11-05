@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TheMaterialModule } from '../material.module';
 
@@ -27,7 +28,9 @@ const components = [
 @NgModule({
   declarations: [ ...components],
   imports: [
-CommonModule,
+  CommonModule,
+  FormsModule,
+  ReactiveFormsModule,
   TheMaterialModule,
   DataAdaptersModule,
   ],

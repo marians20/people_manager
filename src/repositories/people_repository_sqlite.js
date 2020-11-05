@@ -36,7 +36,8 @@ module.exports = function PeopleRepositorySqlite() {
     this.create = async (person) => {
         try {
             var response = await Person.create(person);
-            return responses.Created;
+            await response.save();
+            return responses.Ok;
         } catch(error) {
             console.error(error);
             throw error;

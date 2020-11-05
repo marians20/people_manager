@@ -7,7 +7,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { QueryDto } from '../../data-adapters/dtos';
 import { People, Person } from 'src/app/models';
 import { PeopleDataSource } from './people.datasource';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PeopleFormComponent } from './people-form/people-form.component';
 import { SelectionModel } from '@angular/cdk/collections';
 /**
@@ -96,14 +96,28 @@ export class PeopleComponent implements OnInit, AfterViewInit {
   }
 
   public openDialog(): void {
-    const dialogRef = this.dialog.open(PeopleFormComponent, { data: { title: 'Add person', subtitle: 'Add person form' } });
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    const person: Person = new Person();
+    dialogConfig.data = {
+      title: 'Add person',
+      subtitle: 'Add person form',
+      person
+    };
+    const dialogRef = this.dialog.open(PeopleFormComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${JSON.stringify(result)}`);
+      if (!result) {
+        return;
+      }
+      this.dataSource.add(result).subscribe(() => this.dataSource.load(this.getQueryDto())
+      .subscribe(() => console.log('DataLoaded')));
     });
   }
 
-  public tableRowClick(row: Person) {
+  public tableRowClick(row: Person): void {
     console.log(row);
   }
 }

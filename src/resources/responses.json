@@ -6,5 +6,8 @@
     "NoContent": {
         "statusCode": 204,
         "text": "No content"
+    },
+    "Ok": {
+        "statusCode": 200
     }
 }
