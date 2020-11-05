@@ -11,6 +11,7 @@ import { HeaderComponent } from './header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PeopleComponent } from './people/people.component';
 import { PeopleFormComponent } from './people/people-form/people-form.component';
+import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.component';
 
 const components = [
   PageNotFoundComponent,
@@ -18,6 +19,7 @@ const components = [
   DashboardComponent,
   PeopleComponent,
   PeopleFormComponent,
+  SpinnerOverlayComponent,
 ];
 /**
  *
