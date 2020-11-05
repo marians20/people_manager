@@ -12,7 +12,7 @@ export class Interceptor implements HttpInterceptor {
   constructor(private preloader: SpinnerOverlayService) {
   }
   intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.preloader.show(0);
+    this.preloader.show();
     const API_KEY = 'peoplemanagement';
     const req = httpRequest.clone({ setHeaders: { 'x-api-key': API_KEY } });
     console.log(req);
