@@ -24,47 +24,16 @@ export class RestService {
       map(response => {
         this.openSnackBar(`${response.length} item(s) retrieved.`);
         return response;
-      }),
-      catchError((error) => {
-        if (error.error instanceof ErrorEvent) {
-          // A client-side or network error occurred. Handle it accordingly.
-          console.error('An error occurred:', error.error.message);
-          this.openSnackBar(`${error.error.message}`, 2000);
-        } else {
-          // The backend returned an unsuccessful response code.
-          // The response body may contain clues as to what went wrong.
-          console.error(
-            `Backend returned code ${error.status}, ` +
-            `body was: ${JSON.stringify(error.error)}`);
-          this.openSnackBar(`${error.status} ${error.statusText} ${JSON.stringify(error.error)}`, 2000);
-        }
-        return this.handleError(error);
       })
     );
   }
 
+  public getCount(params?: any): Observable<number> {
+    return this.httpClient.get<number>(`${this._baseUrl}/count`, { params });
+  }
+
   public post(data?: any): Observable<any> {
     return this.httpClient.post(this._baseUrl, data);
-    // .pipe(
-    //   catchError((error) => {
-    //     if (error.error instanceof ErrorEvent) {
-    //       // A client-side or network error occurred. Handle it accordingly.
-    //       console.error('An error occurred:', error.error.message);
-    //       this.openSnackBar(`${error.error.message}`, 2000);
-    //     } else {
-    //       const statusCode = +error.status;
-    //       if ( statusCode < 200 || statusCode >= 300 ) {
-    //         // The backend returned an unsuccessful response code.
-    //         // The response body may contain clues as to what went wrong.
-    //         console.error(
-    //           `Backend returned code ${error.status}, ` +
-    //           `body was: ${JSON.stringify(error.error)}`);
-    //         this.openSnackBar(`${error.status} ${error.statusText} ${JSON.stringify(error.error)}`, 2000);
-    //       }
-    //     }
-    //     return this.handleError(error);
-    //   })
-    // );
   }
 
   private openSnackBar(message: string, duration: number = 500): void {

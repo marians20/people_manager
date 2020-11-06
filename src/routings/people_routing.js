@@ -19,6 +19,7 @@ router.use(function timeLog(req, res, next) {
 });
 
 router.get('/all', peopleController.getAll);
+router.get('/count', peopleController.getCount);
 router.get('/', peopleController.get);
 router.get('/:id', peopleController.getById);
 router.post('/', peopleController.create);

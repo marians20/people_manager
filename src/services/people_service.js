@@ -5,6 +5,8 @@ function PeopleService(opts) {
     this.create = (entity) => peopleRepository.create(entity);
 
     this.getAll = () => peopleRepository.getAll();
+    
+    this.getCount = () => peopleRepository.getCount();
 
     this.get = (queryDto) => peopleRepository.get(queryDto);
 

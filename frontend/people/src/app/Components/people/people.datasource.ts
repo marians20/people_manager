@@ -9,6 +9,8 @@ import { QueryDto } from 'src/app/data-adapters/dtos';
 
 @Injectable({ providedIn: 'root' })
 export class PeopleDataSource extends MatTableDataSource<Person> {
+    private _itemsCount = 0;
+
     constructor(
         private rest: RestService,
         env: EnvironmentService) {
@@ -16,15 +18,25 @@ export class PeopleDataSource extends MatTableDataSource<Person> {
         rest.baseUrl = `${env.getValue('serverUrl')}/${env.getValue('peopleUrl')}`;
     }
 
+    public get itemsCount(): number {
+        return this._itemsCount;
+    }
+
     public load(queryDto: QueryDto): Observable<People> {
         const params = queryDto.sort && queryDto.sort.field ? {
             sortField: queryDto.sort.field,
-            sortDirection: queryDto.sort.direction
-        } : {};
+            sortDirection: queryDto.sort.direction,
+            pageSize: queryDto.pageSize,
+            pageNumber: queryDto.pageNumber
+        } : {
+            pageSize: queryDto.pageSize,
+            pageNumber: queryDto.pageNumber
+        };
 
         return this.rest.get<Person>(params).pipe(
             map(data => {
                 this.data = data;
+                this.rest.getCount().subscribe(response => this._itemsCount = response);
                 return data;
             }));
     }

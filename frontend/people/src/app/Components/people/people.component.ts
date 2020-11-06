@@ -29,7 +29,8 @@ export class PeopleComponent implements OnInit, AfterViewInit {
   public initialSelection = [];
   public allowMultiSelect = true;
   public selection = new SelectionModel<Person>(this.allowMultiSelect, this.initialSelection);
-
+  public pageSize = 10;
+  public pageNumber = 1;
   private isLoadingResults: boolean;
 
   displayedColumns: string[] = ['select', 'firstName', 'lastName', 'cnp'];
@@ -83,7 +84,9 @@ export class PeopleComponent implements OnInit, AfterViewInit {
         sort: {
           field: this.sort.active,
           direction: this.sort.direction
-        }
+        },
+        pageSize: this.paginator.pageSize,
+        pageNumber: this.paginator.pageIndex + 1
       };
     }
 
@@ -91,7 +94,9 @@ export class PeopleComponent implements OnInit, AfterViewInit {
       sort: {
         field: null,
         direction: null
-      }
+      },
+      pageSize: this.paginator.pageSize,
+      pageNumber: this.paginator.pageIndex + 1
     };
   }
 

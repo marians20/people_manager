@@ -9,7 +9,14 @@ module.exports = function PeopleController(opts) {
     
     this.getAll = async (req, res) => await queryToResponse(res, () => peopleService.getAll());
 
-    this.get = async (req, res) => await queryToResponse(res, () => peopleService.get({sortField: req.query.sortField, sortDirection: req.query.sortDirection}));
+    this.getCount = async (req, res) => await queryToResponse(res, () => peopleService.getCount());
+
+    this.get = async (req, res) => await queryToResponse(res, () => peopleService.get({
+        pageSize: req.query.pageSize,
+        pageNumber: req.query.pageNumber,
+        sortField: req.query.sortField,
+        sortDirection: req.query.sortDirection
+    }));
     
     this.update = async (req, res) => await commandToResponse(res, () => peopleService.update(+req.params.id, req.body));
     

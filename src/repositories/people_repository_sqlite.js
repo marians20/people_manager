@@ -3,42 +3,42 @@ const { Sequelize, Model, DataTypes } = require('sequelize');
 const config = require('config');
 const sequelize = new Sequelize(config.dbConfig);
 const queryInterface = sequelize.getQueryInterface();
-const Person = require ('../models/person.js')(sequelize, DataTypes);
+const Person = require('../models/person.js')(sequelize, DataTypes);
 
 module.exports = function PeopleRepositorySqlite() {
 
     queryInterface.createTable('People', {
         id: {
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-          type: Sequelize.INTEGER
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.INTEGER
         },
         firstName: {
-          type: Sequelize.STRING
+            type: Sequelize.STRING
         },
         lastName: {
-          type: Sequelize.STRING
+            type: Sequelize.STRING
         },
         cnp: {
-          type: Sequelize.STRING
+            type: Sequelize.STRING
         },
         createdAt: {
-          allowNull: false,
-          type: Sequelize.DATE
+            allowNull: false,
+            type: Sequelize.DATE
         },
         updatedAt: {
-          allowNull: false,
-          type: Sequelize.DATE
+            allowNull: false,
+            type: Sequelize.DATE
         }
-      });
+    });
 
     this.create = async (person) => {
         try {
             var response = await Person.create(person);
             await response.save();
             return responses.Ok;
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             throw error;
         }
@@ -46,8 +46,17 @@ module.exports = function PeopleRepositorySqlite() {
 
     this.getAll = async () => {
         try {
-        return await Person.findAll();
-        } catch(error) {
+            return await Person.findAll();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    this.getCount = async () => {
+        try {
+            return await Person.count();
+        } catch (error) {
             console.error(error);
             throw error;
         }
@@ -55,15 +64,21 @@ module.exports = function PeopleRepositorySqlite() {
 
     this.get = async (queryDto) => {
         try {
+            console.log(queryDto);
             return queryDto.sortField && queryDto.sortDirection
                 ? await Person.findAll({
-                     order: [[
-                            Sequelize.fn('lower', Sequelize.col(queryDto.sortField)),
-                            queryDto.sortDirection,
-                         ]]
-                    })
-                : await Person.findAll();
-        } catch(error) {
+                    limit: +queryDto.pageSize,
+                    offset: (+queryDto.pageNumber - 1) * (+queryDto.pageSize),
+                    order: [[
+                        Sequelize.fn('lower', Sequelize.col(queryDto.sortField)),
+                        queryDto.sortDirection,
+                    ]]
+                })
+                : await Person.findAll({
+                    limit: +queryDto.pageSize,
+                    offset: (+queryDto.pageNumber - 1) * (+queryDto.pageSize),                    
+                });
+        } catch (error) {
             console.error(error);
             throw error;
         }
@@ -71,8 +86,8 @@ module.exports = function PeopleRepositorySqlite() {
 
     this.getById = async (id) => {
         try {
-        return await Person.findByPk(id);
-        } catch(error) {
+            return await Person.findByPk(id);
+        } catch (error) {
             console.error(error);
             throw error;
         }
@@ -80,7 +95,7 @@ module.exports = function PeopleRepositorySqlite() {
 
     this.update = async (id, person) => {
         var entity = await this.getById(id);
-        if(!entity) {
+        if (!entity) {
             throw errors.NotFound;
         }
 
@@ -88,27 +103,27 @@ module.exports = function PeopleRepositorySqlite() {
             await Person.update(
                 {
                     firstName: person.firstName,
-                    lastName:person.lastName,
+                    lastName: person.lastName,
                     cnp: person.cnp
                 },
-                {where: {id: id}});
+                { where: { id: id } });
             return responses.NoContent;
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             throw error;
         }
     }
 
-    this.delete = async(id) => {
+    this.delete = async (id) => {
         var entity = await this.getById(id);
-        if(!entity) {
+        if (!entity) {
             throw errors.NotFound;
         }
 
         try {
-            await Person.destroy({where: {id: id}});
+            await Person.destroy({ where: { id: id } });
             return responses.NoContent;
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             throw error;
         }
