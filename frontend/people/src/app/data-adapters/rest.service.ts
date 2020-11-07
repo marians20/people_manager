@@ -36,6 +36,10 @@ export class RestService {
     return this.httpClient.post(this._baseUrl, data);
   }
 
+  public delete(id: number): Observable<any> {
+    return this.httpClient.delete(`${this._baseUrl}\\${id}`);
+  }
+
   private openSnackBar(message: string, duration: number = 500): void {
     this.snackBar.open(message, 'Close', {
       duration,

@@ -4,7 +4,7 @@ import { RestService } from './../../data-adapters/rest.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnvironmentService } from 'src/app/environment.service';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { QueryDto } from 'src/app/data-adapters/dtos';
 
 @Injectable({ providedIn: 'root' })
@@ -43,5 +43,9 @@ export class PeopleDataSource extends MatTableDataSource<Person> {
 
     public add(person: Person): Observable<any> {
         return this.rest.post(person);
+    }
+
+    public delete(people: People): Observable<any> {
+        return combineLatest(people.map(person => this.rest.delete(person.id)));
     }
 }

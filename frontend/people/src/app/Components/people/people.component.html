@@ -1,6 +1,9 @@
 <div layout='row' class="mat-elevation-z8 fluid">
-    <button mat-icon-button (click)="openDialog()">
+    <button mat-icon-button (click)="openAddDialog()">
         <mat-icon>add_circle_outline</mat-icon>
+    </button>
+    <button mat-icon-button (click)="openDeleteDialog()" [disabled]="!isSelected">
+        <mat-icon>remove_circle_outline</mat-icon>
     </button>
     <div class="table_container">
     <table mat-table matSort matSortActive="created" matSortDisableClear matSortDirection="desc"
@@ -8,8 +11,8 @@
         <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    [checked]="selection.hasValue() && isAllSelected"
+                    [indeterminate]="selection.hasValue() && !isAllSelected">
                 </mat-checkbox>
             </th>
             <td mat-cell *matCellDef="let row">

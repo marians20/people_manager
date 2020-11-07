@@ -115,14 +115,16 @@ module.exports = function PeopleRepositorySqlite() {
     }
 
     this.delete = async (id) => {
+        console.log('DELETE', id);
         var entity = await this.getById(id);
         if (!entity) {
             throw errors.NotFound;
         }
 
         try {
-            await Person.destroy({ where: { id: id } });
-            return responses.NoContent;
+            const result = await Person.destroy({ where: { id: id } });
+            console.log(result);
+            return responses.Ok;
         } catch (error) {
             console.error(error);
             throw error;

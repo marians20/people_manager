@@ -10,6 +10,7 @@ import { PeopleDataSource } from './people.datasource';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { PeopleFormComponent } from './people-form/people-form.component';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ConfirmationComponent } from '../confirmation/confirmation.component';
 /**
  * @export
  * @class PeopleComponent
@@ -65,15 +66,31 @@ export class PeopleComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void { }
 
-  public isAllSelected(): boolean {
+  public get selectedCount(): number {
+    return this.selection.selected.length;
+  }
+
+  public get isSelected(): boolean {
+    return this.selectedCount > 0;
+  }
+
+  public get isMultipleSelected(): boolean {
+    return this.selectedCount > 1;
+  }
+
+  public get isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    return this.selectedCount === numRows;
+  }
+
+  public get selected(): People {
+    return this.selection.selected;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   public masterToggle(): void {
-    this.isAllSelected() ?
+    this.isAllSelected ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
@@ -100,7 +117,7 @@ export class PeopleComponent implements OnInit, AfterViewInit {
     };
   }
 
-  public openDialog(): void {
+  public openAddDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -119,6 +136,35 @@ export class PeopleComponent implements OnInit, AfterViewInit {
       }
       this.dataSource.add(result).subscribe(() => this.dataSource.load(this.getQueryDto())
       .subscribe(() => console.log('DataLoaded')));
+    });
+  }
+
+  public openDeleteDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    console.log(this.selection);
+    if (this.isMultipleSelected) {
+      dialogConfig.data = {
+        title: 'Delete people',
+        subtitle: `Are you sure that you want to delete ${this.selectedCount} people?`
+      };
+    } else {
+      dialogConfig.data = {
+        title: 'Delete person',
+        subtitle: `Are you sure that you want to delete ${this.selected[0].firstName} ${this.selected[0].lastName}?`
+      };
+    }
+
+    const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${JSON.stringify(result)}`);
+      if (!result) {
+        return;
+      }
+      this.dataSource.delete(this.selected).subscribe(() => this.dataSource.load(this.getQueryDto())
+      .subscribe(() => this.selection.clear()));
     });
   }
 
