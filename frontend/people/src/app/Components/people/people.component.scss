@@ -5,12 +5,9 @@ $tableContainerHeight: calc(#{$containerHeight} - 27px);
     display: flex;
     flex-grow: true;
     height: $containerHeight;
-    .table_container {
-        max-height: $tableContainerHeight;
+    .table-container {
+        max-height: $containerHeight;
         overflow-y: scroll;
-    }
-    table {
-        max-height: $tableHeight;
     }
     .fluid {
         width: 90%;
@@ -27,8 +24,23 @@ $tableContainerHeight: calc(#{$containerHeight} - 27px);
     }
     table {
         width: 100%;
+        th {
+            color: mat-color($primaryPalette, default-contrast);
+            background-color: mat-color($primaryPalette);
+        }
+        tr, td {
+            border: none;
+        }
         tr:not(.header):hover {
             background-color: rgba(0, 0, 0, 0.2);
         }
+        tr:nth-child(even):not(header) {
+            background-color:  rgba(0, 0, 0, 0.1);
+        }
     }
+    .mat-paginator-sticky {
+        bottom: 0px;
+        position: sticky;
+        z-index: 10;
+      }
 }

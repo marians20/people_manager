@@ -15,13 +15,17 @@ module.exports = function PeopleRepositorySqlite() {
             type: Sequelize.INTEGER
         },
         firstName: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
         },
         lastName: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false
         },
         cnp: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
+            unique: true
         },
         createdAt: {
             allowNull: false,

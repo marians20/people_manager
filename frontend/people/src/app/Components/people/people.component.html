@@ -5,40 +5,41 @@
     <button mat-icon-button (click)="openDeleteDialog()" [disabled]="!isSelected">
         <mat-icon>remove_circle_outline</mat-icon>
     </button>
-    <div class="table_container">
-    <table mat-table matSort matSortActive="created" matSortDisableClear matSortDirection="desc"
-        [dataSource]="dataSource">
-        <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef>
-                <mat-checkbox (change)="$event ? masterToggle() : null"
-                    [checked]="selection.hasValue() && isAllSelected"
-                    [indeterminate]="selection.hasValue() && !isAllSelected">
-                </mat-checkbox>
-            </th>
-            <td mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                    [checked]="selection.isSelected(row)">
-                </mat-checkbox>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
-        </ng-container>
-        <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
-        </ng-container>
-        <ng-container matColumnDef="cnp">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> CNP </th>
-            <td mat-cell *matCellDef="let element"> {{element.cnp}} </td>
-        </ng-container>
-        <thead>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns" class='header'></tr>
-        </thead>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="tableRowClick(row)"></tr>
-    </table>
-</div>
-    <mat-paginator [length]="dataSource.itemsCount" [(pageSize)]="pageSize" [pageSizeOptions]="[1, 5, 10, 25, 100]">
+    <div class="table-container">
+        <table mat-table matSort matSortActive="created" matSortDisableClear matSortDirection="desc"
+            [dataSource]="dataSource">
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected"
+                        [indeterminate]="selection.hasValue() && !isAllSelected">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="cnp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> CNP </th>
+                <td mat-cell *matCellDef="let element"> {{element.cnp}} </td>
+            </ng-container>
+            <thead>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class='header'></tr>
+            </thead>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="tableRowClick(row)"></tr>
+        </table>
+    <mat-paginator [length]="dataSource.itemsCount" [(pageSize)]="pageSize" [pageSizeOptions]="[1, 5, 10, 25, 100]"
+        class="mat-paginator-sticky">
     </mat-paginator>
+    </div>
 </div>
