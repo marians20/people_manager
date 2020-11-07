@@ -11,6 +11,10 @@ export class ConfirmationComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: {title: string, subtitle: string}) { }
 
   ngOnInit(): void {
+  //   this.keydownEvents().subscribe(event => {
+  //     if (event.key === "Escape") {
+  //         this.onCancel();
+  //     }
+  // });
   }
-
 }

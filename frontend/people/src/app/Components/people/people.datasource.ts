@@ -45,6 +45,10 @@ export class PeopleDataSource extends MatTableDataSource<Person> {
         return this.rest.post(person);
     }
 
+    public update(id: number, person: Person): Observable<any> {
+        return this.rest.put(id, person);
+    }
+
     public delete(people: People): Observable<any> {
         return combineLatest(people.map(person => this.rest.delete(person.id)));
     }

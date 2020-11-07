@@ -1,8 +1,8 @@
 <div layout='row' class="mat-elevation-z8 fluid">
-    <button mat-icon-button (click)="openAddDialog()">
+    <button mat-icon-button (click)="create()">
         <mat-icon>add_circle_outline</mat-icon>
     </button>
-    <button mat-icon-button (click)="openDeleteDialog()" [disabled]="!isSelected">
+    <button mat-icon-button (click)="delete()" [disabled]="!isSelected">
         <mat-icon>remove_circle_outline</mat-icon>
     </button>
     <div class="table-container">
@@ -36,7 +36,7 @@
             <thead>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class='header'></tr>
             </thead>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="tableRowClick(row)"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="edit(row)"></tr>
         </table>
     <mat-paginator [length]="dataSource.itemsCount" [(pageSize)]="pageSize" [pageSizeOptions]="[1, 5, 10, 25, 100]"
         class="mat-paginator-sticky">

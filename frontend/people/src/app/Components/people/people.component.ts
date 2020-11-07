@@ -7,7 +7,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { QueryDto } from '../../data-adapters/dtos';
 import { People, Person } from 'src/app/models';
 import { PeopleDataSource } from './people.datasource';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { PeopleFormComponent } from './people-form/people-form.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
@@ -117,58 +117,75 @@ export class PeopleComponent implements OnInit, AfterViewInit {
     };
   }
 
-  public openAddDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    const person: Person = new Person();
-    dialogConfig.data = {
+  public create(): void {
+    this.showDialog({
       title: 'Add person',
       subtitle: 'Add person form',
-      person
-    };
-    const dialogRef = this.dialog.open(PeopleFormComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(result => {
+      person: new Person()
+    }).afterClosed().subscribe(result => {
       console.log(`Dialog result: ${JSON.stringify(result)}`);
       if (!result) {
         return;
       }
       this.dataSource.add(result).subscribe(() => this.dataSource.load(this.getQueryDto())
-      .subscribe(() => console.log('DataLoaded')));
+        .subscribe(() => console.log('DataLoaded')));
     });
   }
 
-  public openDeleteDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    console.log(this.selection);
+  public delete(): void {
+    let data;
     if (this.isMultipleSelected) {
-      dialogConfig.data = {
+      data = {
         title: 'Delete people',
         subtitle: `Are you sure that you want to delete ${this.selectedCount} people?`
       };
     } else {
-      dialogConfig.data = {
+      data = {
         title: 'Delete person',
         subtitle: `Are you sure that you want to delete ${this.selected[0].firstName} ${this.selected[0].lastName}?`
       };
     }
 
-    const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.showDialog(data).afterClosed().subscribe(result => {
       console.log(`Dialog result: ${JSON.stringify(result)}`);
       if (!result) {
         return;
       }
       this.dataSource.delete(this.selected).subscribe(() => this.dataSource.load(this.getQueryDto())
-      .subscribe(() => this.selection.clear()));
+        .subscribe(() => this.selection.clear()));
     });
   }
 
-  public tableRowClick(row: Person): void {
-    console.log(row);
+  public edit(person: Person): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = {
+      title: 'Edit person',
+      subtitle: 'Edit person form',
+      person
+    };
+
+    this.showDialog({
+      title: 'Edit person',
+      subtitle: 'Edit person form',
+      person
+    }).afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+
+      this.dataSource.update(person.id, result).subscribe(() => this.dataSource.load(this.getQueryDto())
+        .subscribe(() => console.log('DataLoaded')));
+    });
   }
+
+  private showDialog(data: any): MatDialogRef<any> {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = data;
+    return this.dialog.open(PeopleFormComponent, dialogConfig);
+  }
+
 }
