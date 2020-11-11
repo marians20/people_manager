@@ -3,5 +3,9 @@
     "dbConfig": {
         "dialect": "sqlite",
         "storage": "data/people.sqlite"
-    }
+    },
+    "ACCESS_TOKEN_SECRET": "2GE2q3TjUkoJEYtAterK",
+    "ACCESS_TOKEN_LIFE": 120,
+    "REFRESH_TOKEN_SECRET": "Zgqy6lY90fOFghtVdiORFvqumyJkUR5qhkuvCRVw",
+    "REFRESH_TOKEN_LIFE": 86400
 }

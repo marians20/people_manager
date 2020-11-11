@@ -13,10 +13,12 @@ import { PeopleComponent } from './people/people.component';
 import { PeopleFormComponent } from './people/people-form/people-form.component';
 import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { LoginComponent } from './login/login.component';
 
 const components = [
   PageNotFoundComponent,
   HeaderComponent,
+  LoginComponent,
   DashboardComponent,
   PeopleComponent,
   PeopleFormComponent,

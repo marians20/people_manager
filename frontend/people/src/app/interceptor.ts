@@ -4,6 +4,7 @@ import { Observable, from, of } from 'rxjs';
 import { finalize, map, catchError } from 'rxjs/operators';
 import { SpinnerOverlayService } from './Components/spinner-overlay/spinner-overlay.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Login } from './Components/login/login.service';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
@@ -12,7 +13,8 @@ export class Interceptor implements HttpInterceptor {
    */
   constructor(
     private preloader: SpinnerOverlayService,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private login: Login) {
   }
 
   intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -24,13 +26,18 @@ export class Interceptor implements HttpInterceptor {
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
           console.log(event);
+
           return event;
         }
       }),
       catchError((error: any): Observable<HttpEvent<any>> => {
         this.preloader.hide();
-        console.error(error);
-        this.openSnackBar(JSON.stringify(error));
+        console.log(error);
+        if (error.status === 403) {
+          this.login.show()
+        }
+
+        this.openSnackBar(JSON.stringify(error.error));
         return new Observable<HttpEvent<any>>(null);
       }),
       finalize(() => this.preloader.hide())
