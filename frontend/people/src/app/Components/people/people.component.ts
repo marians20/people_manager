@@ -10,7 +10,7 @@ import { PeopleDataSource } from './people.datasource';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { PeopleFormComponent } from './people-form/people-form.component';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { Confirmation } from '../confirmation';
 /**
  * @export
  * @class PeopleComponent
@@ -41,7 +41,8 @@ export class PeopleComponent implements OnInit, AfterViewInit {
 
   constructor(
     public dataSource: PeopleDataSource,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    public confirmation: Confirmation) {
   }
 
   ngAfterViewInit(): void {
@@ -146,14 +147,14 @@ export class PeopleComponent implements OnInit, AfterViewInit {
       };
     }
 
-    this.showDialog(data).afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${JSON.stringify(result)}`);
-      if (!result) {
-        return;
-      }
-      this.dataSource.delete(this.selected).subscribe(() => this.dataSource.load(this.getQueryDto())
-        .subscribe(() => this.selection.clear()));
-    });
+    this.confirmation.show(data).subscribe(result => {
+        console.log(`Dialog result: ${JSON.stringify(result)}`);
+        if (!result) {
+          return;
+        }
+        this.dataSource.delete(this.selected).subscribe(() => this.dataSource.load(this.getQueryDto())
+          .subscribe(() => this.selection.clear()));
+      });
   }
 
   public edit(person: Person): void {
