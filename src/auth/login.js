@@ -37,5 +37,5 @@ module.exports = function(req, res){
     //send the access token to the client inside a cookie
     //res.cookie("jwt", accessToken, {secure: true, httpOnly: true})
     res.cookie("jwt", accessToken, {secure: false, httpOnly: false})
-    res.send()
+    res.send({token: accessToken})
 }

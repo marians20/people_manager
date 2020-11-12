@@ -5,8 +5,13 @@ const config = require('config');
 module.exports = function(req, res, next){
     let accessToken = req.cookies.jwt;
     console.log('********* Middleware ***********');
-    console.log('Cookies', req.cookies);
-    console.log(accessToken);
+    if(!accessToken) {
+        const authHeader = req.headers.authorization;
+        if(authHeader) {
+            accessToken = authHeader.split(' ')[1];
+        }
+    }
+
     //if there is no token stored in cookies, the request is unauthorized
     if (!accessToken){
         return res.status(403).send()
